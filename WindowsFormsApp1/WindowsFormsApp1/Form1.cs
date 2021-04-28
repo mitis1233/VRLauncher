@@ -53,19 +53,28 @@ namespace WindowsFormsApp1
             process.StartInfo.UseShellExecute = false; //必要引數
             process.StartInfo.RedirectStandardInput = true;//傳入引數設定
             process.StartInfo.CreateNoWindow = true;
-            System.IO.Directory.SetCurrentDirectory("E:\\Game\\Steam\\steamapps\\common\\VRChat");
+            System.IO.Directory.SetCurrentDirectory("E:\\Game\\VRChat");
             process.StartInfo.FileName = "VRChat.exe";
             process.StartInfo.Arguments = "-screen-width 720 -screen-height 400";
             process.Start();
-
             Thread.Sleep(3000);
+            Process[] p = Process.GetProcessesByName("chrome");
+            if (p.Length > 0)
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    int hwnd = p[i].MainWindowHandle.ToInt32();
+                    ShowWindow(hwnd, (int)CommandShow.SW_MINIMIZE);
+                    ShowWindow(hwnd, (int)CommandShow.SW_MAXIMIZE);
+                }
+            }
+            Thread.Sleep(12000);
             IntPtr Handle = FindWindow("Chrome_WidgetWin_1", "Oculus");
             ShowWindow((int)Handle, (int)CommandShow.SW_MINIMIZE);
             Handle = FindWindow(null, "SteamVR 狀態");
             ShowWindow((int)Handle, (int)CommandShow.SW_MINIMIZE);
             Handle = FindWindow(null, "VRChat");
             ShowWindow((int)Handle, (int)CommandShow.SW_MINIMIZE);
-            Process[] p = Process.GetProcessesByName("chrome");
             if (p.Length > 0)
             {
                 for (int i = 0; i < p.Length; i++)
